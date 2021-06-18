@@ -19,6 +19,7 @@
 
 import { FC } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
+import { logout } from "../../utils/auth";
 
 import Logo from "../Logo";
 
@@ -41,7 +42,9 @@ export const Sidebar: FC<SidebarProps> = ({
   return (
     <aside className="fixed min-h-screen w-64 p-6 pb-24 bg-bw-dark text-white text-lg">
       <div className="w-28 mt-2 mb-8">
-        <Logo transparent />
+        <Link to="/">
+          <Logo transparent />
+        </Link>
       </div>
       <SidebarGroup title="Probes">
         {endpoints?.map(endpoint => (
@@ -58,6 +61,12 @@ export const Sidebar: FC<SidebarProps> = ({
           to={`/${orgName}/${projectID}/api-keys`}
           title="API Keys"
         />
+        <div
+          onClick={logout}
+          className="flex flex-col px-4 py-2 mt-2 rounded cursor-pointer"
+        >
+          <span className="text-sm text-opacity-50">Logout</span>
+        </div>
       </SidebarGroup>
     </aside>
   );

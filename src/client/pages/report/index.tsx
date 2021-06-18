@@ -35,27 +35,28 @@ export type ParamTypes = {
 export default function Index(): JSX.Element {
   const history = useHistory();
   const { orgName, projectID, probeID, category } = useParams<ParamTypes>();
+  const decodedProbeID = decodeURIComponent(probeID);
 
   const tabPanes = [
     {
       key: "requests",
       title: "Requests",
-      content: <ReportRequests probeID={probeID} />,
+      content: <ReportRequests probeID={decodedProbeID} />,
     },
     {
       key: "alerts",
       title: "Alerts",
-      content: <ReportAlerts probeID={probeID} />,
+      content: <ReportAlerts probeID={decodedProbeID} />,
     },
     {
       key: "incidents",
       title: "Incidents",
-      content: <ReportIncidents probeID={probeID} />,
+      content: <ReportIncidents probeID={decodedProbeID} />,
     },
     {
       key: "recoveries",
       title: "Recoveries",
-      content: <ReportRecoveries probeID={probeID} />,
+      content: <ReportRecoveries probeID={decodedProbeID} />,
     },
   ];
 
@@ -72,15 +73,17 @@ export default function Index(): JSX.Element {
 
   return (
     <Layout>
-      <div className="flex gap-5">
-        <Title level={4}>Probe 1</Title>
+      <div className="flex justify-start items-center">
+        <Title level={4} className="mr-2">
+          Probe 1
+        </Title>
         <Tag>Online (24 hours)</Tag>
       </div>
       <Tabs
         activeKey={category}
         onChange={changeTab}
         panes={tabPanes}
-        className="mt-12"
+        className="mt-6"
       />
     </Layout>
   );

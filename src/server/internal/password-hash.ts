@@ -17,35 +17,19 @@
  *                                                                                *
  **********************************************************************************/
 
-import { FunctionComponent } from "react";
+import argon2 from "argon2";
 
-export type TitleProps = {
-  level?: 1 | 2 | 3 | 4 | 5;
-  className?: string;
-  children: React.ReactNode;
-};
+export async function hash(plainTextPassword: string): Promise<string> {
+  const passwordHashed = await argon2.hash(plainTextPassword);
 
-const Title: FunctionComponent<TitleProps> = ({
-  level,
-  children,
-  className,
-}) => {
-  const fontSizeClasses = [
-    { level: 1, className: "text-5xl" },
-    { level: 2, className: "text-4xl" },
-    { level: 3, className: "text-3xl" },
-    { level: 4, className: "text-2xl" },
-    { level: 5, className: "text-xl" },
-  ];
+  return passwordHashed;
+}
 
-  const fontSizeClassName =
-    fontSizeClasses.find(fsc => fsc.level === level)?.className ?? "text-5xl";
+export async function verify(
+  hashedPassword: string,
+  plainTextPassword: string,
+): Promise<boolean> {
+  const isVerified = await argon2.verify(hashedPassword, plainTextPassword);
 
-  return (
-    <h1 className={`${fontSizeClassName} ${className} font-bold`}>
-      {children}
-    </h1>
-  );
-};
-
-export default Title;
+  return isVerified;
+}

@@ -17,35 +17,30 @@
  *                                                                                *
  **********************************************************************************/
 
-import { FunctionComponent } from "react";
+import { hash, verify } from "../password-hash";
 
-export type TitleProps = {
-  level?: 1 | 2 | 3 | 4 | 5;
-  className?: string;
-  children: React.ReactNode;
-};
+describe("Password hash", () => {
+  it("should match", async () => {
+    // arrange
+    const plainTextPassword = "example-password";
+    const hashedPassword = await hash(plainTextPassword);
 
-const Title: FunctionComponent<TitleProps> = ({
-  level,
-  children,
-  className,
-}) => {
-  const fontSizeClasses = [
-    { level: 1, className: "text-5xl" },
-    { level: 2, className: "text-4xl" },
-    { level: 3, className: "text-3xl" },
-    { level: 4, className: "text-2xl" },
-    { level: 5, className: "text-xl" },
-  ];
+    // act
+    const isVerified = await verify(hashedPassword, plainTextPassword);
 
-  const fontSizeClassName =
-    fontSizeClasses.find(fsc => fsc.level === level)?.className ?? "text-5xl";
+    // assert
+    expect(isVerified).toBe(true);
+  });
 
-  return (
-    <h1 className={`${fontSizeClassName} ${className} font-bold`}>
-      {children}
-    </h1>
-  );
-};
+  it("should  not match", async () => {
+    // arrange
+    const plainTextPassword = "example-password";
+    const hashedPassword = await hash(plainTextPassword);
 
-export default Title;
+    // act
+    const isVerified = await verify(hashedPassword, "different password");
+
+    // assert
+    expect(isVerified).toBe(false);
+  });
+});
