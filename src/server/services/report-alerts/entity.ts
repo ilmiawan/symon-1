@@ -17,29 +17,8 @@
  *                                                                                *
  **********************************************************************************/
 
-import { LoginView } from "./Login";
-import { render, screen } from "@testing-library/react";
+import { reportRequestAlerts, reportNotifications } from "@prisma/client";
 
-describe("renders Login", () => {
-  it("has input for email", () => {
-    const { container } = render(<LoginView />);
-    const usernameInput = container.querySelector("input#email");
-    expect(usernameInput).toBeInTheDocument();
-  });
+export type ReportRequestAlertCreate = Omit<reportRequestAlerts, "id">;
 
-  it("has label for email input", () => {
-    render(<LoginView />);
-    expect(screen.getByText(/E-mail/i)).toBeInTheDocument();
-  });
-
-  it("has input for password", () => {
-    const { container } = render(<LoginView />);
-    const usernameInput = container.querySelector("input#password");
-    expect(usernameInput).toBeInTheDocument();
-  });
-
-  it("has label for password input", () => {
-    render(<LoginView />);
-    expect(screen.getByText(/password/i)).toBeInTheDocument();
-  });
-});
+export type ReportNotificationCreate = Omit<reportNotifications, "id">;

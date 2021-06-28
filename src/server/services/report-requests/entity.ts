@@ -17,11 +17,6 @@
  *                                                                                *
  **********************************************************************************/
 
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import { reportRequests } from "@prisma/client";
 
-it("renders welcome message", () => {
-  render(<App />);
-  expect(screen.getByText("Create new user")).toBeInTheDocument();
-});
+export type ReportRequestCreate = Omit<reportRequests, "id">;

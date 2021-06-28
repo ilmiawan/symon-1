@@ -17,4 +17,19 @@
  *                                                                                *
  **********************************************************************************/
 
-export { Login as default } from "./Login";
+import { reportRequests } from "@prisma/client";
+
+import Prisma from "../../prisma/prisma-client";
+import { ReportRequestCreate } from "./entity";
+
+export class ReportRequestRepository {
+  async create(res: ReportRequestCreate): Promise<reportRequests> {
+    const data = await Prisma.reportRequests.create({
+      data: {
+        ...res,
+      },
+    });
+
+    return data;
+  }
+}
